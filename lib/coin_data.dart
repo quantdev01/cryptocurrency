@@ -22,6 +22,9 @@ const List<String> currenciesList = [
   'ZAR'
 ];
 
+var i = 0;
+var len = currenciesList.length;
+
 const List<String> cryptoList = [
   'BTC',
   'ETH',

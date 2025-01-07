@@ -1,4 +1,9 @@
+import 'dart:developer';
+import 'dart:io' show Platform;
+
+import 'package:crypto_tracker/coin_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class PriceScreen extends StatefulWidget {
   const PriceScreen({super.key});
@@ -8,6 +13,47 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+  String selectedMenu = 'USD';
+  DropdownButton<String> androidPicker() {
+    List<DropdownMenuItem<String>> newItems = [];
+
+    for (var i in currenciesList) {
+      newItems.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(i),
+        ),
+      );
+    }
+
+    return DropdownButton<String>(
+      value: selectedMenu,
+      items: newItems,
+      onChanged: (value) {
+        setState(() {
+          selectedMenu = value!;
+        });
+        log(value.toString());
+      },
+    );
+  }
+
+  Widget iosPicker() {
+    List<Widget> newItems = [];
+
+    for (var i in currenciesList) {
+      newItems.add(Text(i));
+    }
+    return CupertinoPicker(
+      backgroundColor: Colors.lightBlue,
+      itemExtent: 32,
+      onSelectedItemChanged: (value) {
+        log(value.toString());
+      },
+      children: newItems,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,27 +90,7 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: const EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
-            child: DropdownButton(
-              items: const [
-                DropdownMenuItem(
-                  value: 'USD',
-                  child: Text('USD'),
-                ),
-                DropdownMenuItem(
-                  value: 'EUR',
-                  child: Text('EUR'),
-                ),
-                DropdownMenuItem(
-                  value: 'GBP',
-                  child: Text('GBP'),
-                ),
-              ],
-              onChanged: (value) {
-                setState(() {
-                  value = value;
-                });
-              },
-            ),
+            child: Platform.isIOS ? iosPicker() : androidPicker(),
           ),
         ],
       ),
