@@ -37,7 +37,7 @@ const List<String> cryptoList = [
 ];
 
 class CoinData {
-  Future<String> getCoinData() async {
+  Future getCoinData() async {
     var url =
         'https://api.coinlayer.com/live?access_key=bdc01231bd1939f577537b248ed5f9d2';
 
@@ -50,6 +50,7 @@ class CoinData {
 
       if (response.statusCode == 200) {
         data = response.body;
+        log('from class');
         log(data);
         return jsonDecode(data);
       } else {
@@ -58,6 +59,6 @@ class CoinData {
     } on Exception catch (e) {
       log('This happened $e');
     }
-    return data;
+    return jsonDecode(data);
   }
 }

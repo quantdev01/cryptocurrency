@@ -16,8 +16,9 @@ class _PriceScreenState extends State<PriceScreen> {
   String selectedMenu = 'USD';
   CoinData coinData = CoinData();
 
+  dynamic cryptoData = CoinData().getCoinData();
+
   DropdownButton<String> androidPicker() {
-    log(coinData.getCoinData().toString());
     List<DropdownMenuItem<String>> newItems = [];
 
     for (var i in currenciesList) {
@@ -75,12 +76,13 @@ class _PriceScreenState extends State<PriceScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = ${cryptoData['rates']['BTC']} USD',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
                   ),
