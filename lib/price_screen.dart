@@ -14,7 +14,10 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedMenu = 'USD';
+  CoinData coinData = CoinData();
+
   DropdownButton<String> androidPicker() {
+    log(coinData.getCoinData().toString());
     List<DropdownMenuItem<String>> newItems = [];
 
     for (var i in currenciesList) {
