@@ -49,9 +49,13 @@ class CoinData {
       http.Response response = await http.get(uri);
 
       if (response.statusCode == 200) {
-        data = response.body;
+        if (response.body.isNotEmpty) {
+          data = response.body;
+        }
+
         log('from class');
         log(data);
+
         return jsonDecode(data);
       } else {
         log(response.statusCode.toString());
