@@ -77,8 +77,8 @@ class _PriceScreenState extends State<PriceScreen> {
 
   Future<double> getData(String myCrypto) async {
     var dataDecoded = await CoinData().getCoinData(myCrypto, selectedMenu);
-    log(dataDecoded['rate'].toString());
-    return dataDecoded['rate'];
+    log(dataDecoded != null ? dataDecoded['rate'].toString() : 'No data found');
+    return dataDecoded != null ? dataDecoded['rate'] : 0.0;
   }
 
   @override
@@ -118,7 +118,7 @@ class _PriceScreenState extends State<PriceScreen> {
             height: 150.0,
             alignment: Alignment.center,
             padding: const EdgeInsets.only(bottom: 30.0),
-            color: Colors.lightBlue,
+            color: Colors.black87,
             child: Platform.isIOS ? iosPicker() : androidPicker(),
           ),
         ],

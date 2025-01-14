@@ -17,7 +17,7 @@ class CryptoRate extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
       child: Card(
-        color: Colors.lightBlueAccent,
+        color: Colors.black87,
         elevation: 5.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
