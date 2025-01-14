@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io' show Platform;
 
 import 'package:crypto_tracker/coin_data.dart';
+import 'package:crypto_tracker/crypto_rate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -14,7 +15,11 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   double cryptoRate = 0;
+  double cryptoRate1 = 0;
+  double cryptoRate2 = 0;
+
   String selectedMenu = 'USD';
+
   CoinData coinData = CoinData();
 
   DropdownButton<String> androidPicker() {
@@ -59,14 +64,19 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   Future<void> _loadData() async {
-    double data = await getData();
+    double data = await getData(cryptoList[0]);
+    double data1 = await getData(cryptoList[1]);
+    double data2 = await getData(cryptoList[2]);
+
     setState(() {
       cryptoRate = data;
+      cryptoRate1 = data1;
+      cryptoRate2 = data2;
     });
   }
 
-  Future<double> getData() async {
-    var dataDecoded = await CoinData().getCoinData('BTC', selectedMenu);
+  Future<double> getData(String myCrypto) async {
+    var dataDecoded = await CoinData().getCoinData(myCrypto, selectedMenu);
     log(dataDecoded['rate'].toString());
     return dataDecoded['rate'];
   }
@@ -87,27 +97,22 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Colors.lightBlueAccent,
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = ${cryptoRate.round()} $selectedMenu',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CryptoRate(
+                  cryptoValueText: cryptoList[0],
+                  cryptoRate: cryptoRate,
+                  currency: selectedMenu),
+              CryptoRate(
+                  cryptoValueText: cryptoList[1],
+                  cryptoRate: cryptoRate1,
+                  currency: selectedMenu),
+              CryptoRate(
+                  cryptoValueText: cryptoList[2],
+                  cryptoRate: cryptoRate2,
+                  currency: selectedMenu),
+            ],
           ),
           Container(
             height: 150.0,
