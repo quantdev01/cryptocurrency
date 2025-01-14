@@ -36,10 +36,16 @@ const List<String> cryptoList = [
   'LTC',
 ];
 
+var apiKey = '895bf7bf-777b-4873-ac83-23422c9d519b';
+var apiKeyMarket = '04b0eeff-9849-4bd2-a07f-bbc27621ee2e';
+
 class CoinData {
-  Future getCoinData() async {
+  Future getCoinData(
+    String value,
+    String toChange,
+  ) async {
     var url =
-        'https://api.coinlayer.com/live?access_key=bdc01231bd1939f577537b248ed5f9d2';
+        'https://rest.coinapi.io/v1/exchangerate/BTC/EUR?apikey=$apiKeyMarket';
 
     var data = '';
 
@@ -54,7 +60,8 @@ class CoinData {
         }
 
         log('from class');
-        log(data);
+        var decodedData = jsonDecode(data);
+        log(decodedData['rates']['BTC'].toString());
 
         return jsonDecode(data);
       } else {
@@ -63,6 +70,5 @@ class CoinData {
     } on Exception catch (e) {
       log('This happened $e');
     }
-    return jsonDecode(data);
   }
 }

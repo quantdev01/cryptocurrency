@@ -13,10 +13,9 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+  double btcRate = 0;
   String selectedMenu = 'USD';
   CoinData coinData = CoinData();
-
-  dynamic cryptoData = CoinData().getCoinData();
 
   DropdownButton<String> androidPicker() {
     List<DropdownMenuItem<String>> newItems = [];
@@ -58,6 +57,25 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
+  Future<void> _loadData() async {
+    double data = await getData();
+    setState(() {
+      btcRate = data;
+    });
+  }
+
+  Future<double> getData() async {
+    var dataDecoded = await CoinData().getCoinData('BTC', selectedMenu);
+    print(dataDecoded['rate']);
+    return dataDecoded['rate'];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +98,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: const EdgeInsets.symmetric(
                     vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ${cryptoData['rates']['BTC']} USD',
+                  '1 BTC = ${btcRate.round()} USD',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20.0,
