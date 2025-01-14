@@ -13,7 +13,7 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  double btcRate = 0;
+  double cryptoRate = 0;
   String selectedMenu = 'USD';
   CoinData coinData = CoinData();
 
@@ -35,6 +35,7 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (value) {
         setState(() {
           selectedMenu = value!;
+          _loadData();
         });
         log(value.toString());
       },
@@ -60,13 +61,13 @@ class _PriceScreenState extends State<PriceScreen> {
   Future<void> _loadData() async {
     double data = await getData();
     setState(() {
-      btcRate = data;
+      cryptoRate = data;
     });
   }
 
   Future<double> getData() async {
     var dataDecoded = await CoinData().getCoinData('BTC', selectedMenu);
-    print(dataDecoded['rate']);
+    log(dataDecoded['rate'].toString());
     return dataDecoded['rate'];
   }
 
@@ -98,7 +99,7 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: const EdgeInsets.symmetric(
                     vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ${btcRate.round()} USD',
+                  '1 BTC = ${cryptoRate.round()} $selectedMenu',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20.0,

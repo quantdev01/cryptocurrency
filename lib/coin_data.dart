@@ -45,7 +45,7 @@ class CoinData {
     String toChange,
   ) async {
     var url =
-        'https://rest.coinapi.io/v1/exchangerate/BTC/EUR?apikey=$apiKeyMarket';
+        'https://rest.coinapi.io/v1/exchangerate/$value/$toChange?apikey=$apiKeyMarket';
 
     var data = '';
 
@@ -61,7 +61,7 @@ class CoinData {
 
         log('from class');
         var decodedData = jsonDecode(data);
-        log(decodedData['rates']['BTC'].toString());
+        log(decodedData['rate'].toString());
 
         return jsonDecode(data);
       } else {
